@@ -1,10 +1,10 @@
-steps after cloning:
-npm i
-npx browserslist@latest --update-db
-npm remove @11ty/eleventy
-npm i -D @11ty/eleventy
-npm i -D @11ty/eleventy-img
-npm i
+## steps after cloning:
+- npm i
+- npx browserslist@latest --update-db
+- npm remove @11ty/eleventy
+- npm i -D @11ty/eleventy
+- npm i -D @11ty/eleventy-img
+- npm i
 
 # 🕛 Twelvety
 
