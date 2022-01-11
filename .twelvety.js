@@ -25,7 +25,7 @@ module.exports = {
   // Documentation: https://sharp.pixelplumbing.com/api-output
   imageFormats: {
     // Uncomment AVIF for smaller images but longer build times
-    // avif: 30,
+    avif: 30,
     webp: 60,
     same: 75,
   },

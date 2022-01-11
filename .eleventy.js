@@ -24,6 +24,9 @@ module.exports = function (config) {
   addShortcodes(config);
   config.addShortcode('image', imageShortcode);
 
+  // Copy JavaScript files
+  config.addPassthroughCopy('./src/_assets/scripts/');
+
   // Extract and inline critical CSS in production
   // Documentation: https://github.com/gregives/eleventy-critical-css
   if (twelvety.env === "production") {
@@ -62,27 +65,26 @@ const ImageWidths = {
   PLACEHOLDER: 24,
 };
 
-const imageShortcode = (
+const imageShortcode = async (
   relativeSrc,
   alt,
   widths = [400, 800, 1280],
   baseFormat = 'jpeg',
-  optimizedFormats = ['webp', 'avif'],
+  optimizedFormats = ['avif', 'webp'],
   sizes = '100vw'
 ) => {
   const { name: imgName, dir: imgDir } = path.parse(relativeSrc);
   const fullSrc = path.join('src', relativeSrc);
 
-  const imageMetadata = Image(fullSrc, {
+  const imageMetadata = await Image(fullSrc, {
     widths: [ImageWidths.ORIGINAL, ImageWidths.PLACEHOLDER, ...widths],
     formats: [...optimizedFormats, baseFormat],
     filenameFormat: (hash, _src, width, format) => {
       const suffix = width === ImageWidths.PLACEHOLDER ? 'placeholder' : width;
       return `${imgName}-${hash}-${suffix}.${format}`;
     },
-    outputDir: path.join(twelvety.dir.output, imgDir),
+    outputDir: path.join('dist', imgDir),
     urlPath: imgDir,
-
   });
 
   // Map each unique format (e.g., jpeg, webp) to its smallest and largest images
@@ -100,8 +102,9 @@ const imageShortcode = (
     return formatSizes;
   }, {});
 
+
   // Chain class names w/ the classNames package; optional
-  // const picture = `<picture class="${classNames('lazy-picture', className)}">
+  // const picture = `<picture class="${classNames('lazy-picture', className)}"> //removed to use without classNames
   const picture = `<picture class="lazy-picture">
   ${Object.values(imageMetadata)
     // Map each format to the source HTML markup
@@ -129,5 +132,8 @@ const imageShortcode = (
       class="lazy-img"
       loading="lazy">
   </picture>`;
+
   return picture;
+
+
 };

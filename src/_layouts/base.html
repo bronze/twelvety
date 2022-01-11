@@ -41,7 +41,7 @@
 
     <!-- Defer page script -->
     <script src="{% asset js, 'js' %}" defer></script>
-
+    <script type="module" src="{{ '/_assets/scripts/index.mjs' | url }}" defer></script>
     <!-- Append everything inside to head, see README for more information -->
     {% append 'head' %}
       <!-- Capture all CSS included in this page -->

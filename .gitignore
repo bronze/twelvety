@@ -6,3 +6,6 @@ _site/
 # Don't commit otherwise your build won't generate any images
 .twelvety.cache
 package-lock.json
+
+# Local Netlify folder
+.netlify

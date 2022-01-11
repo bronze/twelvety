@@ -156,8 +156,9 @@ module.exports = function (
     .join("\n      ");
 
   // Responsive picture with srcset and native lazy loading
+  // <picture style="background-color:${color};padding-bottom:${ratio}%">
   const picture = `
-    <picture style="background-color:${color};padding-bottom:${ratio}%">
+    <picture style="background-color:${color};">
       ${srcsets}
       <img src="${fallback}" alt="${alt}" width="${width}" height="${height}" loading="${loading}">
     </picture>
