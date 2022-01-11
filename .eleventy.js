@@ -70,20 +70,19 @@ const imageShortcode = (
   optimizedFormats = ['webp', 'avif'],
   sizes = '100vw'
 ) => {
-  const { dir: imgDir } = path.parse(relativeSrc);
+  const { name: imgName, dir: imgDir } = path.parse(relativeSrc);
   const fullSrc = path.join('src', relativeSrc);
 
-  const imageMetadata = Image.statsSync(fullSrc, {
+  const imageMetadata = Image(fullSrc, {
     widths: [ImageWidths.ORIGINAL, ImageWidths.PLACEHOLDER, ...widths],
     formats: [...optimizedFormats, baseFormat],
-    filenameFormat: (hash, src, width, format) => {
+    filenameFormat: (hash, _src, width, format) => {
       const suffix = width === ImageWidths.PLACEHOLDER ? 'placeholder' : width;
-      const extension = path.extname(src);
-      const name = path.basename(src, extension);
-      return `${name}-${hash}-${suffix}.${format}`;
+      return `${imgName}-${hash}-${suffix}.${format}`;
     },
     outputDir: path.join(twelvety.dir.output, imgDir),
-    urlPath: path.join(twelvety.dir.output, imgDir),
+    urlPath: imgDir,
+
   });
 
   // Map each unique format (e.g., jpeg, webp) to its smallest and largest images
@@ -100,7 +99,6 @@ const imageShortcode = (
     }
     return formatSizes;
   }, {});
-
 
   // Chain class names w/ the classNames package; optional
   // const picture = `<picture class="${classNames('lazy-picture', className)}">
@@ -131,8 +129,5 @@ const imageShortcode = (
       class="lazy-img"
       loading="lazy">
   </picture>`;
-
   return picture;
-
-
 };
