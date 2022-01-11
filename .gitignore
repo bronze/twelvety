@@ -1,5 +1,6 @@
 dist/
 node_modules/
+_site/
 
 # Twelvety caches responsive images
 # Don't commit otherwise your build won't generate any images
